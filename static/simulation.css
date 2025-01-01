@@ -1,5 +1,16 @@
+@font-face {
+  font-family: 'F25_Bank_Printer';
+  src: local('F25'), url('./fonts/F25_Bank_Printer.otf') format('opentype');
+  font-weight: 400;
+  font-style: monospace;
+}
+
+
 body {
-  font-size: calc(5px + 2vmin);
+  font-size: calc(5px + 1vmin);
+  font-family: F25_Bank_Printer, monospace!important;
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale!important;
 }
 
 .form-group {
@@ -13,12 +24,35 @@ img#loading {
 }
 
 div#panel {
+  margin-top: 4em;
+  margin-left: 3em;
   display: grid; 
-  grid-template-columns: 7.5em 10em!important;
+  grid-template-columns: 12em 12em!important;
+}
+
+div#submit {
+  margin-left: 3em;
 }
 
 button#submit-button {
   margin-top: 1em;
+  font-family: F25_Bank_Printer, monospace!important;
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale!important;
+}
+
+
+header {
+  margin: 0;
+  font-family: F25_Bank_Printer, monospace!important;
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale!important;
+}
+
+* .form-control {
+  font-family: F25_Bank_Printer, monospace!important;
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale!important;
 }
 
 

@@ -21,6 +21,7 @@
           const data = await response.json();
   
           document.getElementById('loading').style.display = 'none';
+          document.getElementById('submit-button').style.display = 'block';
           document.getElementById('result').textContent = `Result: ${data.result}`;
       }
     </script>
@@ -31,9 +32,9 @@
     <select id="strat_select" name="strat_select" class="selectpicker form-control">
       {% for s in strats %}
         {%if selected_strat==s.name%}
-        <option value="{{ s.name }}" selected>{{ s.name }}</option>
+        <option name="option" value="{{ s.name }}" selected>{{ s.name }}</option>
         {% else %}
-        <option value="{{ s.name }}">{{ s.name }}</option>
+        <option name="option" value="{{ s.name }}">{{ s.name }}</option>
         {% endif %}
       {% endfor %}
     </select>
@@ -41,25 +42,27 @@
     <select id="scorer_select" name="scorer_select" class="selectpicker form-control">
       {% for s in scorers %}
         {%if selected_scorer==s.name%}
-        <option value="{{ s.name }}" selected>{{ s.name }}</option>
+        <option name="option" value="{{ s.name }}" selected>{{ s.name }}</option>
         {% else %}
-        <option value="{{ s.name }}">{{ s.name }}</option>
+        <option name="option" value="{{ s.name }}">{{ s.name }}</option>
         {% endif %}
       {% endfor %}
     </select>
     <span class="input-group-addon">Max Shuffles: </span>
     <select id="max_shuffles_select" name="max_shuffles_select" class="selectpicker form-control">
       {% for s in max_shuffles %}
-      <option value="{{ s }}">{{ s }}</option>
+        <option name="option" value="{{ s }}">{{ s }}</option>
         {%if selected_max_shuffles==s%}
-        <option value="{{ s }}" selected>{{ s }}</option>
+        <option name="option" value="{{ s }}" selected>{{ s }}</option>
         {% else %}
         {% endif %}
       {% endfor %}
     </select>
   </div>
-  <button id="submit-button" name="submit-button" onclick="fetchResult()">Submit</button>
-  <img id="loading" name="loading" src="{{url_for('static', filename='loading.gif')}}" alt="" />
-  <p id="result">--></p>
+  <div id="submit">
+    <button id="submit-button" name="submit-button" onclick="fetchResult()">Submit</button>
+    <img id="loading" name="loading" src="{{url_for('static', filename='loading.gif')}}" alt="" />
+    <p id="result">--></p>
+  </div>
 </body>
 </html>
