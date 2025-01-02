@@ -5,12 +5,11 @@
   font-style: monospace;
 }
 
-
 body {
-  font-size: calc(5px + 1vmin);
   font-family: F25_Bank_Printer, monospace!important;
   -webkit-font-smoothing: antialiased!important;
   -moz-osx-font-smoothing: grayscale!important;
+  position: absolute!important;
 }
 
 .form-group {
@@ -23,30 +22,87 @@ img#loading {
   width: 3em;
 }
 
-div#panel {
+div#panel-left {
+  position: relative;
   margin-top: 4em;
-  margin-left: 3em;
+  margin-left: 4em;
   display: grid; 
   grid-template-columns: 12em 12em!important;
+  grid-template-rows: 2em 2em 2em 2em 2em;
+  text-align: left;
+  align-items: center;
+}
+
+.choices {
+  border: solid #000000 2px!important;
+  background-color: #fff;
+  /* z-index: 999; */
+  margin: 0em!important;
+  height: 100%;
+}
+
+.choices[data-type*=select-one] .choices__inner {
+  padding-bottom: 0em!important;
+}
+
+.choices[data-type*=select-one] {
+  padding: 0em!important;
+  background-color: white!important;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted, .choices__list[aria-expanded] .choices__item--selectable.is-highlighted {
+  background-color: #3cff00!important;
+}
+
+.choices__inner,
+.is-open .choices__inner {
+  border-color: transparent!important;
+  background-color: white!important;
+  padding: 0em!important;
+  width: 95%!important;
+}
+
+.is-open .choices__list--dropdown, 
+.is-open .choices__list[aria-expanded] {
+  border: solid black 2px!important;
+}
+
+option{
+  color: yellow!important;
+}
+
+* :checked {
+  background-color: transparent;
+}
+
+input#cards-in-deck {
+  font-family: F25_Bank_Printer, monospace!important;
+  -webkit-font-smoothing: antialiased!important;
+  -moz-osx-font-smoothing: grayscale!important;
+  font-size: calc(5px + 1vmin);
+  height: 100%;
+  border: solid #000000;
+  * {
+    color: #000000;
+  }
 }
 
 div#submit {
-  margin-left: 3em;
+  align-self: flex-end;
 }
 
 button#submit-button {
-  margin-top: 1em;
+  margin-top: 2em;
   font-family: F25_Bank_Printer, monospace!important;
   -webkit-font-smoothing: antialiased!important;
   -moz-osx-font-smoothing: grayscale!important;
+  background-color: transparent;
+  transition: 0.3s;
+  border-style: solid;
 }
 
-
-header {
-  margin: 0;
-  font-family: F25_Bank_Printer, monospace!important;
-  -webkit-font-smoothing: antialiased!important;
-  -moz-osx-font-smoothing: grayscale!important;
+button#submit-button:hover {
+  background-color: #3cff00;
 }
 
 * .form-control {
@@ -55,7 +111,114 @@ header {
   -moz-osx-font-smoothing: grayscale!important;
 }
 
-
 img#loading {
   margin-top: 0.7em;
+  width: 15em;
+}
+
+label#min-max-piles {
+  /* margin-top: 2.3em; */
+  position: relative;
+}
+
+a#min-pile,
+a#max-pile {
+  pointer-events: none;
+  color: white;
+  z-index: 1;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+}
+.slider-container {
+  position: relative;
+  /* margin-top: 1em; */
+  /* width: 12em; */
+  height: 2em;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 98%;
+  outline: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: transparent;
+  pointer-events: none;
+}
+.slider-track {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  /* border-radius: 2px; */
+  border: solid black 2px;
+
+  background-color: rgb(255, 255, 255);
+}
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  height: 100%;
+}
+input[type="range"]::-moz-range-track {
+  -moz-appearance: none;
+  height: 1px;
+}
+input[type="range"]::-ms-track {
+  appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 100%;
+  width: 15%;
+  background-color: black;
+  cursor: pointer;
+  /* margin-top: -3.7px; */
+  pointer-events: auto;
+  /* border-radius: 5%; */
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  background-color: #3cff00;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+  background-color: #3cff00;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+.values {
+  background-color: #000000;
+  width: 32%;
+  position: relative;
+  margin: auto;
+  padding: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 25px;
+  color: #ffffff;
+}
+
+p#result {
+  overflow: visible;
+  width: 40em;
 }

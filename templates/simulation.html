@@ -2,67 +2,138 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="favicon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='simulation.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script>
+      let sliderMin, sliderMax, minPile, maxPile, minPileLeft, maxPileLeft, sliderLeft, sliderWidth, sliderMaxValue;
+      document.addEventListener('DOMContentLoaded', () => {
+        sliderMin = document.getElementById('slider-1');
+        sliderMax = document.getElementById('slider-2');
+        minPile = document.getElementById("min-pile");
+        maxPile = document.getElementById("max-pile");
+        minPileLeft = minPile.offsetLeft;
+        maxPileLeft = maxPile.getBoundingClientRect().left;
+        sliderLeft = document.getElementById('slider-wrapper').offsetLeft;
+        sliderWidth = document.getElementById('slider-wrapper').offsetWidth;
+        sliderMaxValue = sliderMin.max;
+
+        const stratSelect = new Choices('#strat_select', { searchEnabled: false, itemSelectText: '' });
+        const scorerSelect = new Choices('#scorer_select', { searchEnabled: false, itemSelectText: '' });
+        const maxShufflesSelect = new Choices('#max_shuffles_select', { searchEnabled: false, itemSelectText: '' });
+
+        slideLeft();
+        slideRight();
+
+        const sliderTop = document.getElementById('slider-wrapper').offsetTop;
+        const sliderHeight = document.getElementById('slider-wrapper').getBoundingClientRect().height;
+        minPile.style.top = `${sliderTop + (sliderHeight/3)}px`;;
+        maxPile.style.top = `${sliderTop + (sliderHeight/3)}px`;
+      });
+
       async function fetchResult() {
+          const deck_size_selector = document.getElementById('cards-in-deck');
           const strat_dropdown = document.getElementById('strat_select');
           const scorer_dropdown = document.getElementById('scorer_select');
           const max_shuffles_dropdown = document.getElementById('max_shuffles_select');
-
+          
+          const deck_size = deck_size_selector.value;
           const selected_strat = strat_dropdown.value;
           const selected_scorer = scorer_dropdown.value;
           const selected_max_shuffles = max_shuffles_dropdown.value;
-  
+          const min_num_piles = sliderMin.value;
+          const max_num_piles = sliderMax.value;
+
           document.getElementById('result').textContent = "";
           document.getElementById('submit-button').style.display = 'none';
           document.getElementById('loading').style.display = 'block';
   
-          const response = await fetch(`/calculate?selected_strat=${selected_strat}&selected_scorer=${selected_scorer}&selected_max_shuffles=${selected_max_shuffles}`);
+          const response = await fetch(
+            `/calculate?deck_size=${deck_size}&selected_strat=${selected_strat}&selected_scorer=${selected_scorer}&selected_max_shuffles=${selected_max_shuffles}&min_num_piles=${min_num_piles}&max_num_piles=${max_num_piles}`
+          );
           const data = await response.json();
   
           document.getElementById('loading').style.display = 'none';
           document.getElementById('submit-button').style.display = 'block';
-          document.getElementById('result').textContent = `Result: ${data.result}`;
+          document.getElementById('result').textContent = `Pile Sequence: ${data.result}`;
+      }
+
+      function slideLeft() {
+        if (parseInt(sliderMax.value) - parseInt(sliderMin.value) < 3) {
+          sliderMax.value = parseInt(sliderMax.value) + 1;
+          sliderMin.value = parseInt(sliderMax.value) - 3;
+          slideRight();
+        }
+        minPile.textContent = sliderMin.value;
+        
+        const adjuster = sliderMin.value >= 10 ? 12 : 7;
+        const percent = (sliderMin.value / sliderMaxValue);
+        minPile.style.left = `${sliderLeft + (percent*(sliderWidth-15))-adjuster}px`;
+      }
+
+      function slideRight() {
+        if (parseInt(sliderMax.value) - parseInt(sliderMin.value) < 3) {
+          sliderMin.value = parseInt(sliderMin.value) - 1;
+          sliderMax.value = parseInt(sliderMin.value) + 3;
+          slideLeft();
+        }
+        maxPile.textContent = sliderMax.value;
+        
+        const adjuster = sliderMax.value >= 10 ? 12 : 7;
+        const percent = (sliderMax.value / sliderMaxValue);
+        maxPile.style.left = `${sliderLeft + (percent*(sliderWidth-15))-adjuster}px`;
+      }
+
+      function colorLeft(color) {
+        minPile.style.color = color;
+      }
+      function colorRight(color) {
+        maxPile.style.color = color;
       }
     </script>
 </head>
 <body>
-  <div id="panel">
-    <span class="input-group-addon">Shuffle Strategy: </span>
-    <select id="strat_select" name="strat_select" class="selectpicker form-control">
-      {% for s in strats %}
-        {%if selected_strat==s.name%}
-        <option name="option" value="{{ s.name }}" selected>{{ s.name }}</option>
-        {% else %}
-        <option name="option" value="{{ s.name }}">{{ s.name }}</option>
-        {% endif %}
-      {% endfor %}
-    </select>
-    <span class="input-group-addon">Scorer Type: </span>
-    <select id="scorer_select" name="scorer_select" class="selectpicker form-control">
-      {% for s in scorers %}
-        {%if selected_scorer==s.name%}
-        <option name="option" value="{{ s.name }}" selected>{{ s.name }}</option>
-        {% else %}
-        <option name="option" value="{{ s.name }}">{{ s.name }}</option>
-        {% endif %}
-      {% endfor %}
-    </select>
-    <span class="input-group-addon">Max Shuffles: </span>
+  <div id="panel-left">
+    <label for="quantity">cards in deck:</label>
+    <input type="number" id="cards-in-deck" name="cards-in-deck" min="10" max="1000" step="10" value="100">
+    <label id="min-max-piles" name="min-max-piles" for="min-max-piles">
+      pile size range:
+    </label>
+    <div id="slider-wrapper" class="slider-wrapper">
+      <div class="slider-container">
+        <div class="slider-track"></div>
+        <input type="range" min="2" max="20" value="3" id="slider-1" oninput="slideLeft()" onmouseenter="colorLeft('black')" onmouseleave="colorLeft('white')">
+        <input type="range" min="2" max="20" value="10" id="slider-2" oninput="slideRight()" onmouseenter="colorRight('black')" onmouseleave="colorRight('white')">
+      </div>
+    </div>
+    <span class="input-group-addon">max shuffles: </span>
     <select id="max_shuffles_select" name="max_shuffles_select" class="selectpicker form-control">
       {% for s in max_shuffles %}
         <option name="option" value="{{ s }}">{{ s }}</option>
-        {%if selected_max_shuffles==s%}
-        <option name="option" value="{{ s }}" selected>{{ s }}</option>
-        {% else %}
-        {% endif %}
       {% endfor %}
     </select>
-  </div>
-  <div id="submit">
-    <button id="submit-button" name="submit-button" onclick="fetchResult()">Submit</button>
-    <img id="loading" name="loading" src="{{url_for('static', filename='loading.gif')}}" alt="" />
-    <p id="result">--></p>
+    <span class="input-group-addon">shuffle strategy: </span>
+    <select id="strat_select" name="strat_select" class="selectpicker form-control">
+      {% for s in strats %}
+        <option name="option" value="{{ s.name }}">{{ s.name }}</option>
+      {% endfor %}
+    </select>
+    <span class="input-group-addon">scorer type: </span>
+    <select id="scorer_select" name="scorer_select" class="selectpicker form-control">
+      {% for s in scorers %}
+        <option name="option" value="{{ s.name }}">{{ s.name }}</option>
+      {% endfor %}
+    </select>
+    <div id="submit">
+      <button id="submit-button" name="submit-button" onclick="fetchResult()">Submit</button>
+      <img id="loading" name="loading" src="{{url_for('static', filename='loading.gif')}}" alt="" />
+      <p id="result">--></p>
+    </div>
+    <a id="max-pile">10</a>
+    <a id="min-pile">3</a>
   </div>
 </body>
 </html>
