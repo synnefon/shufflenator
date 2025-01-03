@@ -40,5 +40,5 @@ def shuffle_simulation():
         min_piles=min_piles
     )
 
-if __name__ == "__main__":
-    app.run()
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=80, debug=True)
