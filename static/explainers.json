@@ -1,0 +1,8 @@
+{
+  "": "",
+  "PILE": "PILE shuffle: place cards into piles sequentially, looping back to the fist when needed. Pick up sequentially.",
+  "RANDOM_PILE": "RANDOM_PILE shuffle: place cards into piles, one by one, each into a random pile. Pick up sequentially.",
+  "LOCATION_DELTA": "LOCATION_DELTA scoring: measure the average distance each card traveled from where it began.",
+  "NEIGHBOR_DIST": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris",
+  "SHANNON_ENTROPY": "SHANNON_ENTROPY scoring: measure the average entropy across all cards in the deck."
+}

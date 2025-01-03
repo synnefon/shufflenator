@@ -1,9 +1,10 @@
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, json, render_template, request, current_app
+import os
+import json
 
 from shuffle_scorers import SCORE_TYPE
 from shuffle_simulator import shuffle_decks
 from shufflers import SHUFFLE_STRAT
-
 
 app = Flask(__name__)
 app.debug = True
@@ -32,12 +33,16 @@ def calculate():
 def shuffle_simulation():
     max_shuffles = [str(i+1) for i in range(6)]
     min_piles = [str(i+1) for i in range(9)]
+    explainers_filename = os.path.join(current_app.static_folder, 'explainers.json')
+    with open(explainers_filename) as test_file:
+        explainers = json.load(test_file)
 
     return render_template('simulation.html',
         strats=SHUFFLE_STRAT,
         scorers=SCORE_TYPE,
         max_shuffles=max_shuffles,
-        min_piles=min_piles
+        min_piles=min_piles,
+        explainers=explainers
     )
 
 if __name__ == '__main__':

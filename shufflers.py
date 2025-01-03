@@ -1,7 +1,7 @@
 from enum import Enum
 from random import randint
 
-from shuffle_scorers import SCORE_FUNCTION_MAP, SCORE_TYPE
+from shuffle_scorers import SCORE_FUNCTION_MAP
 
 
 class ShuffledDeck:

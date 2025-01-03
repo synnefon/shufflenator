@@ -9,7 +9,10 @@ body {
   font-family: F25_Bank_Printer, monospace!important;
   -webkit-font-smoothing: antialiased!important;
   -moz-osx-font-smoothing: grayscale!important;
-  position: absolute!important;
+  /* position: absolute!important; */
+  display: grid; 
+  grid-template-columns: 50% 50%;
+  font-size: calc(6px + 1vmin)!important;
 }
 
 .form-group {
@@ -20,15 +23,51 @@ body {
 img#loading {
   display: none;
   width: 3em;
+  position: relative;
+  align-self: flex-end;
+  top: 10em;
+  left: -1em;
+  /* z-index: 999; */
+}
+
+div#panel-right {
+  position: relative;
+  float: right;
+  margin-left: 5%;
+  margin-top: 4em;
+  /* border-left: 3px solid black; */
+  display: grid; 
+  grid-template-columns: 80%!important;
+}
+
+#explainer-text {
+  /* margin-top: 1em; */
+  margin-bottom: 1em;
+  margin-left: 2em;
+  border-bottom: 0.5px dashed black;
+  vertical-align: middle;
+}
+#explainer-text:last-child {
+  border-bottom: 0px;
+}
+
+@media(max-width:900px){
+  body {
+    grid-template-columns: 100%;
+  }
+  div#panel-left {
+    margin-left: 0em!important;
+  }
 }
 
 div#panel-left {
   position: relative;
+  float: left;
   margin-top: 4em;
   margin-left: 4em;
   display: grid; 
   grid-template-columns: 12em 12em!important;
-  grid-template-rows: 2em 2em 2em 2em 2em;
+  grid-template-rows: 2em 2em 2em 2em 2em 8em;
   text-align: left;
   align-items: center;
 }
@@ -39,19 +78,23 @@ div#panel-left {
   /* z-index: 999; */
   margin: 0em!important;
   height: 100%;
+  font-size: calc(6px + 0.8vmin)!important;
 }
 
 .choices[data-type*=select-one] .choices__inner {
   padding-bottom: 0em!important;
+  font-size: calc(6px + 0.8vmin)!important;
 }
 
 .choices[data-type*=select-one] {
   padding: 0em!important;
   background-color: white!important;
+  font-size: calc(6px + 0.8vmin)!important;
 }
 
 .choices__list--dropdown .choices__item--selectable.is-highlighted, .choices__list[aria-expanded] .choices__item--selectable.is-highlighted {
   background-color: #3cff00!important;
+  font-size: calc(6px + 0.8vmin)!important;
 }
 
 .choices__inner,
@@ -60,11 +103,13 @@ div#panel-left {
   background-color: white!important;
   padding: 0em!important;
   width: 95%!important;
+  font-size: calc(6px + 0.8vmin)!important;
 }
 
 .is-open .choices__list--dropdown, 
 .is-open .choices__list[aria-expanded] {
   border: solid black 2px!important;
+  font-size: calc(6px + 0.8vmin)!important;
 }
 
 option{
@@ -73,13 +118,14 @@ option{
 
 * :checked {
   background-color: transparent;
+  font-size: calc(6px + 0.8vmin)!important;
 }
 
 input#cards-in-deck {
   font-family: F25_Bank_Printer, monospace!important;
   -webkit-font-smoothing: antialiased!important;
   -moz-osx-font-smoothing: grayscale!important;
-  font-size: calc(5px + 1vmin);
+  font-size: calc(6px + 1vmin);
   height: 100%;
   border: solid #000000;
   * {
@@ -89,6 +135,7 @@ input#cards-in-deck {
 
 div#submit {
   align-self: flex-end;
+  font-size: calc(6px + 1vmin)!important;
 }
 
 button#submit-button {
@@ -99,6 +146,7 @@ button#submit-button {
   background-color: transparent;
   transition: 0.3s;
   border-style: solid;
+  font-size: calc(6px + 1vmin)!important;
 }
 
 button#submit-button:hover {
@@ -112,8 +160,9 @@ button#submit-button:hover {
 }
 
 img#loading {
-  margin-top: 0.7em;
+  /* margin-top: 0.7em; */
   width: 15em;
+  position: absolute;
 }
 
 label#min-max-piles {
@@ -214,11 +263,13 @@ input[type="range"]:active::-webkit-slider-thumb {
   border-radius: 5px;
   text-align: center;
   font-weight: 500;
-  font-size: 25px;
+  font-size: calc(6px + 1vmin);
   color: #ffffff;
+  font-size: calc(6px + 0.8vmin)!important;
 }
 
 p#result {
+  padding-top: 1em;
   overflow: visible;
   width: 40em;
 }

@@ -1,4 +1,3 @@
-from collections import Counter
 from enum import Enum
 import numpy as np
 
